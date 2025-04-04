@@ -1,0 +1,12 @@
+<button onclick="f()">Fetch</button>
+<pre id="o"></pre>
+<script>
+  async function f() {
+    try {
+      const d = await (await fetch('https://api.escuelajs.co/api/v1/users')).json();
+      o.textContent = JSON.stringify(d, null, 2);
+    } catch {
+      o.textContent = 'Error on fetching or displaying';
+    }
+  }
+</script>
