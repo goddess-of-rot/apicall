@@ -1,16 +1,37 @@
-<button onclick="fetchData()">Fetch Data</button>
-<pre id="dataOutput"></pre>
+<button onclick="fetchData()">fetch data</button>
+<div id="dataOutput"></div>
+
 <script>
   function fetchData() {
     fetch('https://api.escuelajs.co/api/v1/users')
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        if (!response.ok) throw new Error('network error');
         return response.json();
       })
       .then(data => {
-        document.getElementById('dataOutput').textContent = JSON.stringify(data, null, 2);
+        let tableHTML = `
+          <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; text-align: left;">
+            <thead style="background: #f0f0f0;">
+              <tr>
+                <th>name</th>
+                <th>email</th>
+                <th>password</th>
+                <th>avatar</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.map(user => `
+                <tr>
+                  <td>${user.name}</td>
+                  <td>${user.email}</td>
+                  <td>${user.password}</td>
+                  <td><img src="${user.avatar}" alt="avatar" style="width:40px; height:40px; border-radius:50%; object-fit:cover;"></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+        document.getElementById('dataOutput').innerHTML = tableHTML;
       })
       .catch(error => {
         document.getElementById('dataOutput').textContent = 'Error fetching data: ' + error.message;
