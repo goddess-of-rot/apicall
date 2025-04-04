@@ -5,7 +5,7 @@
     fetch('https://api.escuelajs.co/api/v1/users')
       .then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network error');
         }
         return response.json();
       })
@@ -13,7 +13,7 @@
         document.getElementById('dataOutput').textContent = JSON.stringify(data, null, 2);
       })
       .catch(error => {
-        document.getElementById('dataOutput').textContent = 'Error fetching data: ' + error.message;
+        document.getElementById('dataOutput').textContent = 'Error fetching data';
       });
   }
 </script>
